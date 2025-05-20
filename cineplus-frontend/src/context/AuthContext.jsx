@@ -1,7 +1,7 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useState, useEffect } from 'react';
 import { login as apiLogin, register as apiRegister, getProfile } from '../api/auth';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+const decoded = jwtDecode(token);
 
 export const AuthContext = createContext();
 
@@ -14,17 +14,16 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
       if (token) {
         try {
-          const decoded = jwt_decode(token);
+          const decoded = jwtDecode(token);
           const userData = await getProfile(token);
           setUser({ ...decoded, ...userData.user });
         } catch (error) {
-          console.error('Error al cargar usuario:', error);
+          console.error('Error loading user:', error);
           logout();
         }
       }
       setLoading(false);
     };
-
     loadUser();
   }, [token]);
 

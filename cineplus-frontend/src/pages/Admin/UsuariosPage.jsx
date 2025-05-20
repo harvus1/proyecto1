@@ -9,8 +9,7 @@ import {
   TableHead, 
   TableRow, 
   Paper,
-  Switch,
-  Box
+  Switch
 } from '@mui/material';
 import { AuthContext } from '../../context/AuthContext';
 import { getUsers, updateUserStatus } from '../../api/users';
