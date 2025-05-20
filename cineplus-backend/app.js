@@ -1,4 +1,3 @@
-// app.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -11,21 +10,24 @@ app.use(cors());
 app.use(express.json());
 
 // Conexión a la base de datos
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
+async function startServer() {
+  try {
+    const connection = await db.getConnection();
+    console.log('✅ Connected to MySQL database');
+    connection.release(); // Liberar la conexión inmediatamente
+    
+    // Rutas
+    app.use('/api/auth', require('./routes/authRoutes'));
+    app.use('/api/users', require('./routes/userRoutes'));
+    
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Database connection error:', err);
+    process.exit(1);
   }
-  console.log('Connected to MySQL database');
-});
+}
 
-// Rutas
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/salas', require('./routes/salaRoutes'));
-app.use('/api/reservaciones', require('./routes/reservacionRoutes'));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+startServer();

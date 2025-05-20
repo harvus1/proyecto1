@@ -8,5 +8,8 @@ const userController = require('../controllers/userController');
 router.get('/profile', auth, (req, res) => {
   res.json({ user: req.user });
 });
+router.get('/', auth, isAdmin, userController.getUsers);
+router.put('/:id/status', auth, isAdmin, userController.updateUserStatus);
+
 
 module.exports = router;
