@@ -7,6 +7,8 @@ import theme from './theme';
 import Navbar from './components/Layout/Navbar';
 import PrivateRoute from './components/Layout/PrivateRoute';
 import AdminRoute from './components/Layout/AdminRoute';
+import AppRoutes from './routes/AppRoutes';
+import Layout from './components/Layout/Layout';
 
 // Páginas públicas
 import HomePage from './pages/HomePage';

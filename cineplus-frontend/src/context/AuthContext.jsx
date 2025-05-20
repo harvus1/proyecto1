@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { login as apiLogin, register as apiRegister, getProfile } from '../api/auth';
 import { jwtDecode } from 'jwt-decode';
-const decoded = jwtDecode(token);
+import axios from 'axios';
+import { login as apiLogin, register as apiRegister, getProfile } from '../api/auth';
 
 export const AuthContext = createContext();
 
@@ -14,9 +14,9 @@ export const AuthProvider = ({ children }) => {
     const loadUser = async () => {
       if (token) {
         try {
-          const decoded = jwtDecode(token);
+          const { id, username, role } = jwtDecode(token);
           const userData = await getProfile(token);
-          setUser({ ...decoded, ...userData.user });
+          setUser({ id, username, role, ...userData.user });
         } catch (error) {
           console.error('Error loading user:', error);
           logout();
@@ -28,14 +28,17 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = async (username, password) => {
-    const { token } = await apiLogin(username, password);
-    localStorage.setItem('token', token);
-    setToken(token);
+    try {
+      const { token } = await apiLogin(username, password);
+      localStorage.setItem('token', token);
+      setToken(token);
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    }
   };
 
-  const register = async (username, password, email) => {
-    await apiRegister(username, password, email);
-  };
+  
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -44,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
