@@ -40,7 +40,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/salas" element={<SalasPage />} />
 
-            {/* Rutas privadas (requieren autenticación) */}
+            {/* Rutas privadas  */}
             <Route path="/butacas/:salaId" element={
               <PrivateRoute>
                 <ButacasPage />
@@ -57,7 +57,7 @@ function App() {
               </PrivateRoute>
             } />
 
-            {/* Rutas de administración (requieren rol admin) */}
+            {/* Rutas de administración  */}
             <Route path="/admin" element={
               <PrivateRoute>
                 <AdminRoute>

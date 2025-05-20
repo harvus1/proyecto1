@@ -1,4 +1,3 @@
-// src/components/Butacas/ButacaSelector.jsx
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid } from '@mui/material';
 import { getAsientos } from '../../api/salas';

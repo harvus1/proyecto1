@@ -1,4 +1,3 @@
-// src/components/Salas/SalaCard.jsx
 import React from 'react';
 import { Card, CardMedia, CardContent, Typography, Button, CardActions } from '@mui/material';
 import { Link } from 'react-router-dom';

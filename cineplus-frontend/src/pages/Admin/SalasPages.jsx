@@ -1,4 +1,3 @@
-// src/pages/Admin/SalasPage.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { getSalas, deleteSala } from '../../api/salas';
