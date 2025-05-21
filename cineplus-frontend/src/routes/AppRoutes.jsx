@@ -9,6 +9,7 @@ import ButacasPage from '../pages/Admin/ButacasPage';
 import PrivateRoute from '../components/Layout/PrivateRoute';
 import AdminRoute from '../components/Layout/AdminRoute';
 
+
 const AppRoutes = () => {
   return (
     <Routes>
