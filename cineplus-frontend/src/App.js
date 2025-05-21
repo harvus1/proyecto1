@@ -113,7 +113,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout/Layout';
 import  AppRoutes  from './routes/AppRoutes';
-
+import Reservaciones from './pages/MisReservacionesPage';
 
 const theme = createTheme({
   palette: {

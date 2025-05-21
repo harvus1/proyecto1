@@ -1,33 +1,40 @@
-import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box } from '@mui/material';
-import QRCode from 'react-qr-code';
+import { useEffect } from 'react';
+import QRCode from 'qrcode.react';
 
-const QRModal = ({ open, onClose, reservacionId }) => {
-  const downloadQR = () => {
-    window.open(`${process.env.REACT_APP_API_URL}/reservaciones/${reservacionId}/qr`, '_blank');
-  };
+const QRModal = ({ reservaId, onClose }) => {
+  const [qrData, setQrData] = useState('');
+
+  useEffect(() => {
+    // Generar datos únicos para el QR
+    setQrData(`CINEPLUS:RESERVA:${reservaId}:${Date.now()}`);
+  }, [reservaId]);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Reservación Confirmada</DialogTitle>
-      <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 3 }}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-xs text-center">
+        <h2 className="text-xl font-bold mb-4">Tu código QR</h2>
+        
+        <div className="flex justify-center mb-4">
           <QRCode 
-            value={`${process.env.REACT_APP_API_URL}/reservaciones/${reservacionId}/qr`}
-            size={256}
+            value={qrData} 
+            size={200} 
+            level="H" 
+            includeMargin={true} 
           />
-          <Typography variant="body1" sx={{ mt: 2 }}>
-            Guarda este código QR para presentarlo en el cine
-          </Typography>
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cerrar</Button>
-        <Button variant="contained" onClick={downloadQR}>
-          Descargar QR
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </div>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Muestra este código al ingresar a la sala
+        </p>
+
+        <button
+          onClick={onClose}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
   );
 };
 
